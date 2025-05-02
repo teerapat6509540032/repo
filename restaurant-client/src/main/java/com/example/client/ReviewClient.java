@@ -16,49 +16,26 @@ public class ReviewClient {
         this.restTemplate = restTemplate;
     }
 
-    public void requestReview(String baseUrl) {
-        try {
-            ResponseEntity<Map> response = restTemplate.getForEntity(baseUrl + "/review", Map.class);
-            System.out.println("Received review: " + response.getBody());
-        } catch (Exception e) {
-            System.err.println("Failed to get review: " + e.getMessage());
-        }
-    }
-
-    public void sendMenuForFeedback(String baseUrl) {
-        Map<String, String> menu = Map.of(
-            "name", "ต้มยำกุ้ง",
-            "description", "เมนูใหม่ที่ต้องการทดสอบ"
-        );
-
-        try {
-            ResponseEntity<Map> response = restTemplate.postForEntity(baseUrl + "/test-menu", menu, Map.class);
-            System.out.println("Received feedback: " + response.getBody());
-        } catch (Exception e) {
-            System.err.println("Failed to send menu for feedback: " + e.getMessage());
-        }
-    }
-
     public void interactWithCustomer(String baseUrl) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("กรุณาเลือกบริการ: (ขอรีวิว / ขอเทสเมนู / ออก)");
+            System.out.println("Please select a service: (Request Review / Test Menu / Exit)");
             String input = scanner.nextLine();
 
-            if ("ออก".equals(input)) {
-                System.out.println("ปิดบริการ");
+            if ("Exit".equalsIgnoreCase(input)) {
+                System.out.println("Service closed");
                 break;
             }
 
-            if ("ขอรีวิว".equals(input)) {
+            if ("Request Review".equalsIgnoreCase(input)) {
                 try {
                     ResponseEntity<Map> response = restTemplate.getForEntity(baseUrl + "/review", Map.class);
-                    System.out.println("รีวิวจากลูกค้า: " + response.getBody());
+                    System.out.println("Customer review: " + response.getBody());
                 } catch (Exception e) {
                     System.err.println("Failed to get review: " + e.getMessage());
                 }
-            } else if ("ขอเทสเมนู".equals(input)) {
-                System.out.println("ต้องการเทสเมนูอะไรครับ:");
+            } else if ("Test Menu".equalsIgnoreCase(input)) {
+                System.out.println("What menu would you like to test?");
                 String menuName = scanner.nextLine();
                 Map<String, String> menu = Map.of("name", menuName);
 
@@ -69,7 +46,7 @@ public class ReviewClient {
                     System.err.println("Failed to test menu: " + e.getMessage());
                 }
             } else {
-                System.out.println("คำสั่งไม่ถูกต้อง");
+                System.out.println("Invalid command");
             }
         }
     }

@@ -12,7 +12,7 @@ public class CustomerController {
     public ResponseEntity<Map<String, Object>> provideReview() {
         Map<String, Object> review = Map.of(
             "score", 4,
-            "comment", "เมนูใหม่รสชาติดี แต่ควรเพิ่มความเผ็ด"
+            "comment", "menu tastes good, but pricing should be lower."
         );
         return ResponseEntity.ok(review);
     }
@@ -23,7 +23,7 @@ public class CustomerController {
 
         Map<String, String> feedback = Map.of(
             "menu", menu.get("name"),
-            "feedback", "รสชาติดี แต่ควรเพิ่มความเผ็ด"
+            "feedback", "The taste is good, but it should be spicier."
         );
 
         return ResponseEntity.ok(feedback);

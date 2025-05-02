@@ -10,9 +10,9 @@ import java.util.Optional;
 public class MenuController {
 
     private final List<MenuItem> menu = List.of(
-        new MenuItem(1, "ข้าวผัด", 50),
-        new MenuItem(2, "ผัดไทย", 60),
-        new MenuItem(3, "ต้มยำกุ้ง", 80)
+        new MenuItem(1, "Fried Rice", 50),
+        new MenuItem(2, "Pad Thai", 60),
+        new MenuItem(3, "Tom Yum Goong", 80)
     );
 
     @GetMapping("/menu")
@@ -23,7 +23,7 @@ public class MenuController {
     @PostMapping("/order")
     public ResponseEntity<String> placeOrder(@RequestBody OrderRequest order) {
         try {
-            // ค้นหาเมนูตาม id
+            // Find menu by id
             Optional<MenuItem> menuItem = menu.stream()
                 .filter(item -> item.getId() == order.getItem())
                 .findFirst();

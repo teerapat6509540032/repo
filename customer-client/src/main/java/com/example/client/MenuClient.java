@@ -20,24 +20,24 @@ public class MenuClient {
     public void interactWithRestaurant(String baseUrl) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("กรุณาเลือกบริการ: (ขอเมนู / สั่งอาหาร / ออก)");
+            System.out.println("Please select a service: (Request Menu / Place Order / Exit)");
             String input = scanner.nextLine();
 
-            if ("ออก".equals(input)) {
-                System.out.println("ปิดบริการ");
+            if ("Exit".equalsIgnoreCase(input)) {
+                System.out.println("Service closed");
                 break;
             }
 
-            if ("ขอเมนู".equals(input)) {
+            if ("Request Menu".equalsIgnoreCase(input)) {
                 try {
                     ResponseEntity<List> response = restTemplate.getForEntity(baseUrl + "/menu", List.class);
-                    System.out.println("เมนูอาหาร:");
+                    System.out.println("Menu:");
                     response.getBody().forEach(System.out::println);
                 } catch (Exception e) {
                     System.err.println("Failed to get menu: " + e.getMessage());
                 }
-            } else if ("สั่งอาหาร".equals(input)) {
-                System.out.println("กรุณาใส่หมายเลขของอาหารที่ต้องการ:");
+            } else if ("Place Order".equalsIgnoreCase(input)) {
+                System.out.println("Please enter the menu ID you want to order:");
                 int menuId = scanner.nextInt();
                 scanner.nextLine(); // Consume newline
                 Map<String, Object> order = Map.of("item", menuId, "quantity", 1);
@@ -49,7 +49,7 @@ public class MenuClient {
                     System.err.println("Order failed: " + e.getMessage());
                 }
             } else {
-                System.out.println("คำสั่งไม่ถูกต้อง");
+                System.out.println("Invalid command");
             }
         }
     }
